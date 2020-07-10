@@ -1,17 +1,18 @@
 #!/usr/bin/env node
-var http = require('http');
-var fs = require('fs');
-var documentRoot = './';
-var server= http.createServer(function(req,res){
-    var url = (req.url == "/") ? "/index.html" : req.url; 
-    var file = documentRoot + url;
-    console.log(url);
-    fs.readFile( file , function(err,data){
-        data = (err) ? '<p>404</p>' : data;
-        res.writeHeader(200);
-        res.write(data);
-        res.end();
-    });
+const http = require('http');
+const fs = require('fs');
+const mime = require('mime');
+const documentRoot = './';
+const server = http.createServer(function (req, res) {
+  const url = (req.url == "/") ? "/index.html" : req.url;
+  const file = documentRoot + url;
+  console.log(url);
+  fs.readFile(file, function (err, data) {
+    data = (err) ? '<p>404</p>' : data;
+    res.setHeader("Content-Type", mime.lookup(url));
+    res.write(data);
+    res.end();
+  });
 }).listen(8080);
 
 console.log('http://localhost:8080/');
