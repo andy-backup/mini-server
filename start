@@ -9,7 +9,7 @@ const server = http.createServer(function (req, res) {
   console.log(url);
   fs.readFile(file, function (err, data) {
     data = (err) ? '<p>404</p>' : data;
-    res.setHeader("Content-Type", mime.lookup(url));
+    res.setHeader("Content-Type", mime.getType(url));
     res.write(data);
     res.end();
   });
